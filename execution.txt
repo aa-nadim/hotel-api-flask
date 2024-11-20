@@ -1,0 +1,47 @@
+python -m venv .venv
+source .venv/Scripts/activate
+pip install flask flask-restful flask-jwt-extended flask-bcrypt flask-swagger-ui
+pip freeze > requirements.txt
+
+python user_service/app.py
+
+
+python destination_service/app.py
+
+python auth_service/app.py
+
+
+---------For Windows---------------
+
+        python -m venv .venv
+
+        source .venv/Scripts/activate
+
+
+
+        
+pip install -r requirements.txt
+
+pip freeze > requirements.txt
+
+python main.py
+
+
+
+user_service
+
+curl -X POST http://127.0.0.1:5000/register -H "Content-Type: application/json" -d '{
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "role": "User"
+}'
+
+
+
+
+curl -X POST http://127.0.0.1:5000/login -H "Content-Type: application/json" -d '{
+    "email": "john@example.com",
+    "password": "password123"
+}'
+
