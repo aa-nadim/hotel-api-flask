@@ -1,5 +1,6 @@
 import os
 import ast
+import uuid
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 from flasgger import Swagger
@@ -131,7 +132,7 @@ def add_destination():
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
     destination = {
-        "id": len(destinations) + 1,
+        "id": str(uuid.uuid4()),  # Generate a unique ID
         "name": data["name"],
         "description": data["description"],
         "location": data["location"],

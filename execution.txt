@@ -1,53 +1,32 @@
-python -m venv .venv
-source .venv/Scripts/activate
-pip install flask flask-restful flask-jwt-extended flask-bcrypt flask-swagger-ui
-pip freeze > requirements.txt
+---------For Linux---------------
 
-python user_service/app.py
-
-
-python destination_service/app.py
-
-python auth_service/app.py
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 
 
 ---------For Windows---------------
 
-        python -m venv .venv
-
-        source .venv/Scripts/activate
-        
----------For Linux---------------
-
-        python3 -m venv .venv
-
-        source .venv/bin/activate
+python -m venv .venv
+source .venv/Scripts/activate
+pip install -r requirements.txt  
 
 
-        
-pip install -r requirements.txt
+----------run the services--------
+
+python user_service/app.py
+python destination_service/app.py
+python auth_service/app.py
+
+
+--------create requirements.txt---------
 
 pip freeze > requirements.txt
 
-python main.py
 
 
+http://127.0.0.1:5001/apidocs/
 
-user_service
+http://127.0.0.1:5002/apidocs
 
-curl -X POST http://127.0.0.1:5000/register -H "Content-Type: application/json" -d '{
-    "name": "John Doe",
-    "email": "john@example.com",
-    "password": "password123",
-    "role": "User"
-}'
-
-
-
-
-curl -X POST http://127.0.0.1:5000/login -H "Content-Type: application/json" -d '{
-    "email": "john@example.com",
-    "password": "password123"
-}'
-
-curl -X GET "http://127.0.0.1:5003/auth" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjE4OTc5MywianRpIjoiZTNiZjM0NDQtZmM5ZS00ZjYwLTg2NzAtMGJhNmVjNTRiYzdmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFiY0BleGFtcGxlLmNvbSIsIm5iZiI6MTczMjE4OTc5MywiY3NyZiI6IjA4NmQ1OTM4LWU5NDgtNDQ2NC04OWY2LThhZmYwODc0NjMxNiIsImV4cCI6MTczMjE5MDY5Mywicm9sZSI6IlVzZXIifQ.eNr6CQbIgyvzBeOs5-0bIBvM-v6aNF-zeTNOSroE_ek"
+http://127.0.0.1:5000/apidocs/
