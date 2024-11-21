@@ -50,3 +50,4 @@ curl -X POST http://127.0.0.1:5000/login -H "Content-Type: application/json" -d 
     "password": "password123"
 }'
 
+curl -X GET "http://127.0.0.1:5003/auth" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTczMjE4OTc5MywianRpIjoiZTNiZjM0NDQtZmM5ZS00ZjYwLTg2NzAtMGJhNmVjNTRiYzdmIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6ImFiY0BleGFtcGxlLmNvbSIsIm5iZiI6MTczMjE4OTc5MywiY3NyZiI6IjA4NmQ1OTM4LWU5NDgtNDQ2NC04OWY2LThhZmYwODc0NjMxNiIsImV4cCI6MTczMjE5MDY5Mywicm9sZSI6IlVzZXIifQ.eNr6CQbIgyvzBeOs5-0bIBvM-v6aNF-zeTNOSroE_ek"

@@ -29,7 +29,6 @@ swagger = Swagger(
         },
         "security": [{"Bearer": []}],
     },
-
 )
 
 # JWT configuration
