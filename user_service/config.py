@@ -1,3 +1,4 @@
+# user_service/config.py
 class Config:
     JWT_SECRET_KEY = 'your-secret-key'
     SWAGGER = {

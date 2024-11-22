@@ -16,7 +16,7 @@ swagger = Swagger(
             "description": "API for user registration, authentication, and profile management",
             "version": "1.0.0",
         },
-        "host": "127.0.0.1:5000",  
+        "host": "127.0.0.1:5003",  
         "basePath": "/",  
         "schemes": ["http"],  
         "securityDefinitions": {
@@ -65,4 +65,4 @@ def get_destinations():
     
 
 if __name__ == "__main__":
-    app.run(port=5000)
+    app.run(port=5003)

@@ -17,9 +17,9 @@ swagger = Swagger(
             "description": "API for user registration, authentication, and profile management",
             "version": "1.0.0",
         },
-        "host": "127.0.0.1:5002",  
-        "basePath": "/",  
-        "schemes": ["http"],  
+        "host": "127.0.0.1:5002",
+        "basePath": "/",
+        "schemes": ["http"],
         "securityDefinitions": {
             "Bearer": {
                 "type": "apiKey",
@@ -155,7 +155,7 @@ def get_destinations():
     return jsonify({"destinations": destinations}), 200
 
 
-@app.route("/destinations/<int:id>", methods=["DELETE"])
+@app.route("/destinations/<string:id>", methods=["DELETE"])
 @jwt_required()
 def delete_destination(id):
     """
@@ -167,9 +167,9 @@ def delete_destination(id):
       - name: id
         in: path
         required: true
-        type: integer
+        type: string
         description: Destination ID
-        example: 1
+        example: 3f6b13f5-84d8-4e5d-b178-e2e4c9c69b33
     responses:
       200:
         description: Destination deleted successfully
