@@ -1,3 +1,11 @@
 .venv
+.coverage
+
 /user_service/__pycache__
 /user_service/__tests__/__pycache__
+
+/destination_service/__pycache__
+/destination_service/__tests__/__pycache__
+
+/auth_service/__pycache__
+/auth_service/__tests__/__pycache__
