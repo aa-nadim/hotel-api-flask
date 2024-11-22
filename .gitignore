@@ -1,1 +1,3 @@
 .venv
+/user_service/__pycache__
+/user_service/__tests__/__pycache__
