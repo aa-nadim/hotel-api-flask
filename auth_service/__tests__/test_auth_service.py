@@ -43,7 +43,7 @@ def test_user_access(client):
     
     assert response.status_code == 200
     data = json.loads(response.data)
-    assert "Error: Administrator" in data['message']
+    assert "Unauthorized Admin" in data['message']
 
 def test_missing_token(client):
     """Test access without providing a token"""
@@ -51,9 +51,9 @@ def test_missing_token(client):
     
     assert response.status_code == 401
     data = json.loads(response.data)
-    # Flask-JWT-Extended returns 'msg' instead of 'error'
-    assert 'msg' in data
-    assert "Missing Authorization Header" in data['msg']
+    # Flask-JWT-Extended returns 'error' instead of 'msg'
+    assert 'error' in data
+    assert "Authorization header is missing" in data['error']
 
 def test_invalid_token(client):
     """Test access with an invalid token"""

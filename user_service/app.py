@@ -1,6 +1,7 @@
 # user_service/app.py
 import os
 import ast
+import re
 from flask import Flask, jsonify, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
@@ -109,7 +110,7 @@ def register_user():
             password:
               type: string
               description: User's password
-              example: password123
+              example: Password123
             name:
               type: string
               description: User's full name
@@ -132,6 +133,15 @@ def register_user():
     missing_fields = [field for field in required_fields if not data.get(field)]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    # Validate Email format
+    email_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+    if not re.match(email_regex, data.get("email", "")):
+        return jsonify({"error": "Invalid email format"}), 400
+
+    # Validate password strength (e.g., at least 8 characters, 1 uppercase, 1 number)
+    if len(data["password"]) < 8 or not re.search(r'[A-Z]', data["password"]) or not re.search(r'[0-9]', data["password"]):
+        return jsonify({"error": "Password must be at least 8 characters long, include 1 uppercase letter and 1 number"}), 400
 
     # Validate role
     valid_roles = ["User", "Admin"]
@@ -176,7 +186,7 @@ def login():
             password:
               type: string
               description: User's password
-              example: password123
+              example: Password123
     responses:
       200:
         description: Login successful
@@ -191,6 +201,11 @@ def login():
     # Validate input
     if not data or "email" not in data or "password" not in data:
         return jsonify({"error": "Email and password are required"}), 400
+
+    # Validate email format
+    email_regex = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
+    if not re.match(email_regex, data.get("email", "")):
+        return jsonify({"error": "Invalid email format"}), 400
 
     # Find user by email
     user = next((u for u in users if u["email"] == data["email"]), None)

@@ -1,9 +1,11 @@
+# destination_service/app.py
 import os
 import ast
 import uuid
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 from flasgger import Swagger
+import re
 
 app = Flask(__name__)
 
@@ -13,8 +15,8 @@ swagger = Swagger(
     template={
         "swagger": "2.0",
         "info": {
-            "title": "User Service API",
-            "description": "API for user registration, authentication, and profile management",
+            "title": "Destination Service API",
+            "description": "API for managing travel destinations",
             "version": "1.0.0",
         },
         "host": "127.0.0.1:5002",
@@ -55,6 +57,7 @@ def load_destinations():
     except (FileNotFoundError, SyntaxError, ValueError):
         destinations = []
 
+
 def save_destinations():
     """
     Save the destinations list to the destination_data.py file.
@@ -82,12 +85,36 @@ def persist_data(exception=None):
     save_destinations()
 
 
+def validate_destination_data(data):
+    """
+    Validate the required fields and values for the destination data.
+    """
+    required_fields = ["name", "description", "location", "price_per_night"]
+    missing_fields = [field for field in required_fields if not data.get(field)]
+    if missing_fields:
+        return {"error": f"Missing fields: {', '.join(missing_fields)}"}, 400
+
+    # Validate name length
+    if len(data["name"]) < 3:
+        return {"error": "Destination name must be at least 3 characters long."}, 400
+
+    # Validate price per night (must be a positive float)
+    try:
+        price = float(data["price_per_night"])
+        if price <= 0:
+            return {"error": "Price per night must be a positive number."}, 400
+    except ValueError:
+        return {"error": "Invalid price format."}, 400
+
+    return None, None
+
+
 @app.route("/addDestinations", methods=["POST"])
 @jwt_required()
 def add_destination():
     """
     Add a New Destination (Admin only)
-    ---
+    --- 
     security:
       - Bearer: []
     parameters:
@@ -126,10 +153,11 @@ def add_destination():
         return jsonify({"error": "Admin access required"}), 401
 
     data = request.get_json()
-    required_fields = ["name", "description", "location", "price_per_night"]
-    missing_fields = [field for field in required_fields if field not in data]
-    if missing_fields:
-        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    # Validate the destination data
+    error_response, status_code = validate_destination_data(data)
+    if error_response:
+        return jsonify(error_response), status_code
 
     destination = {
         "id": str(uuid.uuid4()),  # Generate a unique ID
@@ -140,6 +168,7 @@ def add_destination():
     }
     destinations.append(destination)
     save_destinations()
+
     return jsonify({"message": "Destination added successfully", "destination": destination}), 201
 
 
@@ -189,9 +218,9 @@ def delete_destination(id):
 
     destinations = [d for d in destinations if d["id"] != id]
     save_destinations()
+
     return jsonify({"message": "Destination deleted successfully"}), 200
 
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5002)
-

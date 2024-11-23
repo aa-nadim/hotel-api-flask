@@ -1,9 +1,11 @@
+# auth_service/app.py
 import os
 import ast
 from flask import Flask, jsonify, request
 from flask_jwt_extended import JWTManager, jwt_required, get_jwt
 from werkzeug.exceptions import Unauthorized
 from flasgger import Swagger
+import re
 
 app = Flask(__name__)
 
@@ -13,8 +15,8 @@ swagger = Swagger(
     template={
         "swagger": "2.0",
         "info": {
-            "title": "User Service API",
-            "description": "API for user registration, authentication, and profile management",
+            "title": "Auth Service API",
+            "description": "API for managing authentication and role-based access",
             "version": "1.0.0",
         },
         "host": "127.0.0.1:5003",  
@@ -55,6 +57,10 @@ def get_destinations():
     claims = get_jwt()
     role = claims.get("role")
 
+    # Validate role
+    if not role:
+        return jsonify({"error": "Role not found in token."}), 400
+
     if role == "Admin":
         return jsonify(
             {
@@ -62,7 +68,7 @@ def get_destinations():
             }
         ), 200
     elif role == "User":
-        return jsonify({"message": "Error: Administrator privileges are required to access this feature."}), 200
+        return jsonify({"message": "Unauthorized Admin. Administrator privileges are required to access this feature."}), 200
     else:
         # If the role is not recognized, return a 403 Forbidden status
         return jsonify({"error": "Role not recognized"}), 403
@@ -90,6 +96,32 @@ def handle_forbidden(error):
     This will return the error message: "Role not recognized."
     """
     return jsonify({"error": "Role not recognized"}), 403
+
+# Additional validation for JWT token structure
+def validate_jwt_token(token):
+    """
+    Custom function to validate the JWT token structure.
+    This will check if the token is in the correct format: "Bearer {token}"
+    """
+    if not token.startswith("Bearer "):
+        return jsonify({"error": "Token should start with 'Bearer '"}), 400
+    if len(token.split(" ")) != 2:
+        return jsonify({"error": "Invalid token format."}), 400
+    return None
+
+@app.before_request
+def validate_authorization_header():
+    """
+    Middleware to validate the Authorization header format before every request.
+    """
+    auth_header = request.headers.get('Authorization', None)
+    if auth_header:
+        validation_error = validate_jwt_token(auth_header)
+        if validation_error:
+            return validation_error
+    else:
+        return jsonify({"error": "Authorization header is missing"}), 401
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5003)

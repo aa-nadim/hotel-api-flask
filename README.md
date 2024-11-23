@@ -105,3 +105,114 @@ To run all tests and check the combined coverage:
   pytest --cov=user_service --cov=destination_service --cov=auth_service --cov-report=term --cov-report=html
   ```
   Open the generated `htmlcov/index.html` for detailed coverage reports.
+
+
+## API Endpoints
+
+### **User Service Endpoints**
+
+#### **1. Register a New User**
+- **URL**: `/register`
+- **Method**: `POST`
+- **Description**: Register a new user with the required details.
+- **Request Body**:
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "Password123",
+    "name": "John Doe",
+    "role": "User"
+  }
+- **Responses:**
+  - `201`: User registered successfully
+  - `400`: Missing fields or invalid input
+
+
+#### **2. User Login**
+- **URL**: `/login`
+- **Method**: `POST`
+- **Description**: Authenticate a user and provide an access token.
+- **Request Body**:
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "Password123"
+  }
+- **Responses:**
+  - `200`: Login successful with JWT token
+  - `400`: Missing email or password
+  - `401`: Invalid credentials
+
+
+#### **3. View User Profile**
+- **URL**: `/profile`
+- **Method**: `GET`
+- **Description**: View the profile of the logged-in user.
+- **Authentication**: JWT token is required (Authorization header with "Bearer {token}").
+- **Responses:**
+  - `200`: User profile data (email, role)
+  - `401`: Unauthorized (no token provided)
+
+
+### **Destination Service Endpoints**
+
+#### **1. Add a New Destination**
+- **URL**: `/addDestinations`
+- **Method**: `POST`
+- **Description**: Add a new destination (Admin only).
+- **Authentication**: JWT token required (Admin role).
+- **Request Body**:
+  ```json
+  {
+    "name": "Bali",
+    "description": "A tropical paradise",
+    "location": "Indonesia",
+    "price_per_night": 200.5
+  }
+- **Responses:**
+  - `201`: Destination added successfully
+  - `401`: Unauthorized (Admin access required)
+  - `400`: Missing fields or invalid data
+
+
+#### **2. Get All Destinations**
+- **URL**: `/destinations`
+- **Method**: `GET`
+- **Description**: Retrieve a list of all destinations.
+- **Responses:**
+  - `200`: List of all destinations
+
+
+#### **3. Delete a Destination**
+- **URL**: `/destinations/<id>`
+- **Method**: `DELETE`
+- **Description**: Delete a destination by its ID (Admin only).
+- **Authentication**: JWT token required (Admin role).
+- **Parameters:**
+  - `id`: Destination ID (string)
+- **Responses:**
+  - `200`: Destination deleted successfully
+  - `401`: Unauthorized (Admin access required)
+  - `404`: Destination not found
+
+
+### **Auth Service Endpoints**
+
+#### **1. Get Destinations with Role-based Access**
+- **URL**: `/auth`
+- **Method**: `GET`
+- **Description**: Get access to destinations with role-based access.
+- **Authentication**: JWT token required (Admin or User role).
+- **Responses:**
+  - `200`: Role-based message (for Admin and User roles)
+  - `401`: Missing or invalid JWT token
+  - `403`: Role not recognized or unauthorized
+
+
+
+### **Error Responses**
+  - `400`: Bad Request – Missing required fields or invalid input
+  - `401`: Unauthorized – Token missing or invalid
+  - `403`: Forbidden – Insufficient role privileges (Admin required)
+  - `404`: Not Found – The requested resource was not found
+  - `422`: Unprocessable Entity – Invalid token format or signature

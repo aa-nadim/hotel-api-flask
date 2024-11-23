@@ -1,7 +1,9 @@
+# user_service/__tests__/test_user_service.py
 import pytest
 import os
 import shutil
 from user_service.app import app, USER_DATA_FILE, load_users, save_users
+import re
 
 # Backup file for original data
 TEMP_USER_DATA_FILE = f"{USER_DATA_FILE}.backup"
@@ -43,11 +45,11 @@ def client():
 
 def test_register_user(client):
     """
-    Test user registration.
+    Test user registration with valid input.
     """
     data = {
         "email": "newuser@example.com",
-        "password": "password123",
+        "password": "Password123",
         "name": "New User",
         "role": "User",
     }
@@ -62,7 +64,7 @@ def test_register_user_already_exists(client):
     """
     data = {
         "email": "existinguser@example.com",
-        "password": "password123",
+        "password": "Password123",
         "name": "Existing User",
         "role": "User",
     }
@@ -74,13 +76,57 @@ def test_register_user_already_exists(client):
     assert response.json["error"] == "Email already registered"
 
 
+def test_register_user_missing_fields(client):
+    """
+    Test registration with missing required fields.
+    """
+    data = {
+        "email": "missingfields@example.com",
+        "password": "password123",
+        "role": "User",
+    }
+    response = client.post("/register", json=data)
+    assert response.status_code == 400
+    assert "Missing fields" in response.json["error"]
+
+
+def test_register_user_invalid_email(client):
+    """
+    Test registration with an invalid email format.
+    """
+    data = {
+        "email": "invalidemail.com",  # Invalid email
+        "password": "password123",
+        "name": "Invalid Email User",
+        "role": "User",
+    }
+    response = client.post("/register", json=data)
+    assert response.status_code == 400
+    assert "Invalid email format" in response.json["error"]
+
+
+def test_register_user_weak_password(client):
+    """
+    Test registration with a weak password.
+    """
+    data = {
+        "email": "weakpassword@example.com",
+        "password": "pass",  # Weak password
+        "name": "Weak Password User",
+        "role": "User",
+    }
+    response = client.post("/register", json=data)
+    assert response.status_code == 400
+    assert "Password must be at least 8 characters long" in response.json["error"]
+
+
 def test_login_success(client):
     """
     Test successful user login.
     """
     data = {
         "email": "loginuser@example.com",
-        "password": "password123",
+        "password": "Password123",
         "name": "Login User",
         "role": "User",
     }
@@ -89,7 +135,7 @@ def test_login_success(client):
 
     # Test login
     response = client.post(
-        "/login", json={"email": "loginuser@example.com", "password": "password123"}
+        "/login", json={"email": "loginuser@example.com", "password": "Password123"}
     )
     assert response.status_code == 200
     assert "token" in response.json
@@ -120,14 +166,14 @@ def test_profile_authorized(client):
     """
     data = {
         "email": "profileuser@example.com",
-        "password": "password123",
+        "password": "Password123",
         "name": "Profile User",
         "role": "User",
     }
     # Register and login the user
     client.post("/register", json=data)
     login_response = client.post(
-        "/login", json={"email": "profileuser@example.com", "password": "password123"}
+        "/login", json={"email": "profileuser@example.com", "password": "Password123"}
     )
     token = login_response.json.get("token")
 
