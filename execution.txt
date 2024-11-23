@@ -12,26 +12,31 @@ source .venv/Scripts/activate
 pip install -r requirements.txt  
 
 
-----------user_service--------
+____________________________________________________________user_service__________________________________________________
 
 python user_service/app.py
 pytest user_service/__tests__/test_user_service_app.py
-
 pytest --cov=user_service.app --cov-report=term
 
 pytest user_service --cov=.
 
 
-----------destination_service--------
+______________________________________________________destination_service___________________________________________________
 
 python destination_service/app.py
+pytest destination_service/__tests__/test_destination_service.py
+pytest destination_service --cov=.
 
-------------------auth_service-------------
+
+______________________________________________________auth_service_________________________________________________________
 
 python auth_service/app.py
 pytest auth_service/__tests__/test_auth_service.py
 
 pytest auth_service --cov=.
+
+
+
 
 --------create requirements.txt---------
 

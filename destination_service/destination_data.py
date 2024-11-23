@@ -1,1 +1,1 @@
-destinations = [{'id': '97d41813-122b-46df-85a9-0c359a1e2a02', 'name': 'Balhhi', 'description': 'A tropsdfgdfical paradise', 'location': 'Indonsdfgesia', 'price_per_night': 290.5}]
+destinations = [{'id': '5a295ee3-d375-411c-b89e-7bb693be9eee', 'name': 'Bali', 'description': 'A tropical paradise', 'location': 'Indonesia', 'price_per_night': 200.5}]
