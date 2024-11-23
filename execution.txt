@@ -12,6 +12,9 @@ source .venv/Scripts/activate
 pip install -r requirements.txt  
 
 
+deactivate
+
+
 ____________________________________________________________user_service__________________________________________________
 
 python user_service/app.py
