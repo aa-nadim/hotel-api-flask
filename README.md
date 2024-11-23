@@ -15,13 +15,6 @@ This project provides a set of microservices related to hotel management, built 
   source .venv/bin/activate
   pip install -r requirements.txt
   ```
-### If you use **Docker**
-```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  pip install -r requirements.txt
-  deactivate
-  ```
 
 ### For **Windows**
   ```bash
@@ -216,3 +209,4 @@ To run all tests and check the combined coverage:
   - `403`: Forbidden – Insufficient role privileges (Admin required)
   - `404`: Not Found – The requested resource was not found
   - `422`: Unprocessable Entity – Invalid token format or signature
+
