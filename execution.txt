@@ -31,6 +31,7 @@ python destination_service/app.py
 python auth_service/app.py
 pytest auth_service/__tests__/test_auth_service.py
 
+pytest auth_service --cov=.
 
 --------create requirements.txt---------
 
