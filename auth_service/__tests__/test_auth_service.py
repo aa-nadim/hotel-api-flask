@@ -45,14 +45,6 @@ def test_user_access(client):
     data = json.loads(response.data)
     assert "Error: Administrator" in data['message']
 
-# def test_missing_token(client):
-#     """Test access without providing a token"""
-#     response = client.get('/auth')
-    
-#     assert response.status_code == 401
-#     data = json.loads(response.data)
-#     assert data['error'] == 'Missing or invalid JWT token.'
-
 def test_missing_token(client):
     """Test access without providing a token"""
     response = client.get('/auth')
@@ -62,17 +54,6 @@ def test_missing_token(client):
     # Flask-JWT-Extended returns 'msg' instead of 'error'
     assert 'msg' in data
     assert "Missing Authorization Header" in data['msg']
-
-# def test_invalid_token(client):
-#     """Test access with an invalid token"""
-#     headers = {'Authorization': 'Bearer invalid_token'}
-#     response = client.get('/auth', headers=headers)
-    
-#     assert response.status_code == 422
-#     data = json.loads(response.data)
-#     assert 'error' in data
-#     assert "Invalid token format or signature." in data['error']
-
 
 def test_invalid_token(client):
     """Test access with an invalid token"""
