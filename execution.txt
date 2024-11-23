@@ -1,54 +1,60 @@
----------For Linux---------------
+________________________________________________________For Linux___________________________________
 
 python3 -m venv .venv
+
+
 source .venv/bin/activate
 pip install -r requirements.txt
 
 
----------For Windows---------------
+deactivate
+______________________________________________________For Windows__________________________________________
 
 python -m venv .venv
+
+
 source .venv/Scripts/activate
 pip install -r requirements.txt  
 
 
 deactivate
-
-
 ____________________________________________________________user_service__________________________________________________
 
 python user_service/app.py
-pytest user_service/__tests__/test_user_service_app.py
-pytest --cov=user_service.app --cov-report=term
 
+
+pytest user_service/__tests__/test_user_service.py
 pytest user_service --cov=.
-
-
-______________________________________________________destination_service___________________________________________________
+_______________________________________________________________destination_service___________________________________________________
 
 python destination_service/app.py
+
+
 pytest destination_service/__tests__/test_destination_service.py
 pytest destination_service --cov=.
-
-
-______________________________________________________auth_service_________________________________________________________
+_____________________________________________________________________auth_service_________________________________________________________
 
 python auth_service/app.py
-pytest auth_service/__tests__/test_auth_service.py
 
+pytest auth_service/__tests__/test_auth_service.py
 pytest auth_service --cov=.
 
+________________________________________________Tests All___________________________________________
+
+pytest --cov=user_service --cov=destination_service --cov=auth_service --cov-report=term --cov-report=html
 
 
 
---------create requirements.txt---------
+________________________________________________create requirements.txt__________________________________________
 
 pip freeze > requirements.txt
 
 
 
-http://127.0.0.1:5001/apidocs/
+__________________________________________________Swagger UI______________________________________________________
 
-http://127.0.0.1:5002/apidocs
+python user_service/app.py ===> (http://127.0.0.1:5001/apidocs/)
 
-http://127.0.0.1:5000/apidocs/
+python destination_service/app.py ===> (http://127.0.0.1:5002/apidocs)
+
+python auth_service/app.py ===> (http://127.0.0.1:5003/apidocs/)
