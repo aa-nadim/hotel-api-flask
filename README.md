@@ -15,13 +15,6 @@ This project provides a set of microservices related to hotel management, built 
   source .venv/bin/activate
   pip install -r requirements.txt
   ```
-### If you use **Docker**
-```bash
-  python3 -m venv .venv
-  source .venv/bin/activate
-  pip install -r requirements.txt
-  deactivate
-  ```
 
 ### For **Windows**
   ```bash
