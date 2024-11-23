@@ -82,10 +82,10 @@ To run all tests and check the combined coverage:
 
 Each service provides an interactive API documentation via Swagger UI:
 
-  **User Service: http://127.0.0.1:5001/apidocs/
+  User Service: http://127.0.0.1:5001/apidocs/
 
-  **Destination Service: http://127.0.0.1:5002/apidocs/
-
-  **Auth Service: http://127.0.0.1:5003/apidocs/
+  Destination Service: http://127.0.0.1:5002/apidocs/
+  
+  Auth Service: http://127.0.0.1:5003/apidocs/
 
 Use Swagger UI to test the endpoints, review request/response formats, and explore available features.
