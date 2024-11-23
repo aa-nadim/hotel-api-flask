@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  user_service:
+    container_name: userService-container
+    build:
+      context: .
+      dockerfile: user_service/Dockerfile
+    ports:
+      - "5001:5001"  
+    volumes:
+      - ./user_service:/app
+    restart: unless-stopped
+    command: ["python3", "app.py"]
+
+  destination_service:
+    container_name: destinationService-container
+    build:
+      context: .
+      dockerfile: destination_service/Dockerfile
+    ports:
+      - "5002:5002" 
+    volumes:
+      - ./destination_service:/app
+    restart: unless-stopped
+    command: ["python3", "app.py"]
+
+  auth_service:
+    container_name: authService-container
+    build:
+      context: .
+      dockerfile: auth_service/Dockerfile
+    ports:
+      - "5003:5003"  
+    volumes:
+      - ./auth_service:/app
+    restart: unless-stopped
+    command: ["python3", "app.py"]
+

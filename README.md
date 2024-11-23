@@ -1,18 +1,29 @@
 # Travel API with Microservices 
 
-This project is a basic Travel API built using Flask where consists of three microservices for managing users, destinations, and authentication. It uses Flask, Swagger UI for API documentation, and provides unit tests with coverage.
+This project provides a set of microservices related to hotel management, built using Flask, with services for user management, destination management, and authentication. The services are containerized using Docker for easy deployment and scalability.
 
 ## Installation
 
-### For Linux
+### Clone the Repository
   ```bash
+  git clone https://github.com/aa-nadim/hotel-api-flask.git
+  cd hotel-api-flask
+  ```
+### For **Linux**
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+  ```
+### If you use **Docker**
+```bash
   python3 -m venv .venv
   source .venv/bin/activate
   pip install -r requirements.txt
   deactivate
   ```
 
-### For Windows
+### For **Windows**
   ```bash
   python -m venv .venv
   source .venv/Scripts/activate
@@ -20,34 +31,52 @@ This project is a basic Travel API built using Flask where consists of three mic
   deactivate
   ```
 
-## Running the Services
+## Docker Setup Instructions
 
-### User Service
+### **Pre-requisites**
+1. **Docker**: Ensure that Docker and Docker Compose are installed on your machine.
+   - [Install Docker](https://docs.docker.com/get-docker/)
+   - [Install Docker Compose](https://docs.docker.com/compose/install/)
+
+### **Build the Docker Images**
+
+To build the Docker images for all services and start the containers, run:
+
+```bash
+  sudo docker-compose up -d --build
+  docker-compose down
+```
+
+## Running the Services (Not Aplicable for Docker)
+
+### **User Service**
 Run the user service on port 5001:
   ```bash
   python user_service/app.py
   ```
-Access the Swagger UI:
-http://127.0.0.1:5001/apidocs/
-
-
-
-### Destination Service
+### **Destination Service**
 Run the destination service on port 5002:
   ```bash
   python destination_service/app.py
   ```
-Access the Swagger UI:
-http://127.0.0.1:5002/apidocs/
-
-
-### Auth Service
+### **Auth Service**
 Run the authentication service on port 5003:
   ```bash
   python auth_service/app.py
   ```
-Access the Swagger UI:
-http://127.0.0.1:5003/apidocs/
+
+## Services Overview (Access the Swagger UI)
+1. **User Service**:
+   - Run on: [http://127.0.0.1:5001/apidocs/](http://127.0.0.1:5001/apidocs/)
+
+2. **Destination Service**:
+   - Run on: [http://127.0.0.1:5002/apidocs/](http://127.0.0.1:5002/apidocs/)
+
+3. **Auth Service**:
+   - Run on: [http://127.0.0.1:5003/apidocs/](http://127.0.0.1:5003/apidocs/)
+
+Use Swagger UI to test the endpoints, review request/response formats, and explore available features.
+
 
 ## Running Tests
 Run the unit tests for each service individually:
@@ -76,16 +105,3 @@ To run all tests and check the combined coverage:
   pytest --cov=user_service --cov=destination_service --cov=auth_service --cov-report=term --cov-report=html
   ```
   Open the generated `htmlcov/index.html` for detailed coverage reports.
-
-
-## Swagger UI
-
-Each service provides an interactive API documentation via Swagger UI:
-
-  User Service: http://127.0.0.1:5001/apidocs/
-
-  Destination Service: http://127.0.0.1:5002/apidocs/
-  
-  Auth Service: http://127.0.0.1:5003/apidocs/
-
-Use Swagger UI to test the endpoints, review request/response formats, and explore available features.
