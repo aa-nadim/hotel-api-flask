@@ -109,21 +109,6 @@ def validate_jwt_token(token):
         return jsonify({"error": "Invalid token format."}), 400
     return None
 
-# @app.before_request
-# def validate_authorization_header():
-#     """
-#     Middleware to validate the Authorization header format before every request.
-#     """
-#     auth_header = request.headers.get('Authorization', None)
-#     if auth_header:
-#         print(f"Authorization Header Received: {auth_header}")  # Debug log
-#         validation_error = validate_jwt_token(auth_header)
-#         if validation_error:
-#             return validation_error
-#     else:
-#         print("Authorization Header Missing")  # Debug log
-#         return jsonify({"error": "Authorization header is missing"}), 401
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5003)

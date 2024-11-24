@@ -10,12 +10,6 @@ services:
       - ./user_service:/app
     restart: unless-stopped
     command: ["python3", "app.py"]
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1:5001"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 20s  
 
   destination_service:
     container_name: destinationService-container
@@ -28,9 +22,6 @@ services:
       - ./destination_service:/app
     restart: unless-stopped
     command: ["python3", "app.py"]
-    depends_on:
-      user_service:
-        condition: service_healthy
 
   auth_service:
     container_name: authService-container
@@ -43,7 +34,3 @@ services:
       - ./auth_service:/app
     restart: unless-stopped
     command: ["python3", "app.py"]
-    depends_on:
-      user_service:
-        condition: service_healthy
-
