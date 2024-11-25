@@ -1,7 +1,7 @@
 import pytest
 from flask import json
 from flask_jwt_extended import create_access_token
-from auth_service.app import app  # Ensure this points to your auth_service app
+from auth_service.app import app
 
 @pytest.fixture
 def client():
